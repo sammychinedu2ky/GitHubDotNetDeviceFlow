@@ -1,5 +1,4 @@
-﻿using System.Net.Mime;
-using Octokit;
+﻿using Octokit;
 using Octokit.Internal;
 using System.Text.Json;
 using System.Diagnostics;
