@@ -89,7 +89,7 @@ public class GitHubDeviceFlow
         return JsonSerializer.Deserialize<IDictionary<string, object>>(content)!;
     }
 
-    //Generate a random word of 6 letters
+    //Generate a random 6 letter word
     public string GenerateRandomName()
     {
         var stringBuilder = new StringBuilder();
