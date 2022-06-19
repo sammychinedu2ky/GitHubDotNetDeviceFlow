@@ -16,7 +16,7 @@ var RequestAccessTokenInput = new[]{
      new KeyValuePair<string, string>("client_id", clientId),
      new KeyValuePair<string, string>("device_code",  Convert.ToString(getCodes["device_code"])),
      new KeyValuePair<string, string>("grant_type",  "urn:ietf:params:oauth:grant-type:device_code")
-}; 
+};
 
 //save user_code to clipboard
 Process.Start(new ProcessStartInfo
@@ -39,6 +39,7 @@ Process.Start(new ProcessStartInfo
 });
 while (true)
 {
+    //continue polling for the access token until the payload doesn't contain an error key
     var response = await flow.RequestAccessToken(RequestAccessTokenInput);
     if (response.ContainsKey("error"))
     {
@@ -53,6 +54,7 @@ while (true)
         var creds = new InMemoryCredentialStore(new Credentials(token));
         var github = new GitHubClient(new ProductHeaderValue("MyDeviceFlowApp"), creds);
         var createRepo = await github.Repository.Create(new NewRepository(flow.GenerateRandomName()));
+        //print the url of the created Repo to the console
         Console.WriteLine(createRepo.CloneUrl);
         break;
     }
@@ -64,8 +66,8 @@ public class GitHubDeviceFlow
     //request for user_code and device_code
     public async Task<IDictionary<string, object>> RequestCodes(string clientId, string scope)
     {
-        var requestCodeInput = new[] { 
-            new KeyValuePair<string, string>("client_id", clientId), 
+        var requestCodeInput = new[] {
+            new KeyValuePair<string, string>("client_id", clientId),
             new KeyValuePair<string, string>("scope", scope)
         };
         var uri = new Uri("https://github.com/login/device/code");
