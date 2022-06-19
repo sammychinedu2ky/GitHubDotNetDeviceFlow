@@ -64,7 +64,10 @@ public class GitHubDeviceFlow
     //request for user_code and device_code
     public async Task<IDictionary<string, object>> RequestCodes(string clientId, string scope)
     {
-        var requestCodeInput = new[] { new KeyValuePair<string, string>("client_id", clientId), new KeyValuePair<string, string>("scope", scope) };
+        var requestCodeInput = new[] { 
+            new KeyValuePair<string, string>("client_id", clientId), 
+            new KeyValuePair<string, string>("scope", scope)
+        };
         var uri = new Uri("https://github.com/login/device/code");
         var response = await MakePostRequest(requestCodeInput, uri);
         return response;
